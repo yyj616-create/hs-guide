@@ -23,7 +23,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 header.top{background:var(--navy);color:var(--white);padding-block:22px 18px}
 header.top{text-align:center}
 header.top h1{margin:0 0 6px;font-size:clamp(24px,5.5vw,32px);font-weight:800;letter-spacing:-.5px;text-wrap:balance}
-header.top p{margin:0 auto;max-width:640px;font-size:13px;color:var(--hdr-sub);text-wrap:balance}
+header.top p{margin:0;font-size:13px;color:var(--hdr-sub)}
 .searchbar{background:var(--navy-d);padding-block:14px 16px}
 .row{display:flex;gap:8px;flex-wrap:wrap}
 .row input{flex:1 1 240px;min-width:0;padding:11px 14px;border-radius:8px;border:none;font-size:15px;background:var(--card);color:var(--ink);font-family:inherit}
@@ -80,6 +80,10 @@ footer p{margin:2px 0}
 .facts{display:grid;grid-template-columns:auto 1fr;gap:3px 14px;margin:0}
 .facts dt{color:var(--ink-2)}.facts dd{margin:0}
 h3.sec{font-size:14px;margin:18px 0 6px}
+h3.band{font-size:16.5px;font-weight:800;margin:26px 0 10px;padding:10px 14px;border-radius:8px;color:var(--white);display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
+h3.band span{font-size:12.5px!important;font-weight:400!important;color:inherit!important;opacity:.88}
+h3.b-uni{background:var(--navy)}
+h3.b-sch{background:var(--ok)}
 .legend{display:flex;gap:12px;margin:0 0 8px;font-size:11.5px;color:var(--ink-2);flex-wrap:wrap}
 .legend span{display:inline-flex;align-items:center;gap:4px}
 .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
@@ -302,14 +306,14 @@ function openDetail(x){
     <div class="blk"><div class="lbl">이런 학생에게 추천해요</div><ul>${x.rec.map(r=>`<li>${esc(r)}</li>`).join("")}</ul></div>
     ${x.A.length?`<h3 class="sec">선배들의 심화 탐구 예시</h3><div class="adv">${x.A.map(a=>`<div class="arow"><span class="af">${esc(a.f)}</span><div class="at">${esc(a.t)}</div><ul>${a.acts.map(z=>`<li>${esc(z)}</li>`).join("")}</ul></div>`).join("")}</div>`:""}
     <div class="blk"><dl class="facts"><dt>성적 기록</dt><dd>${evalText(x)}</dd><dt>수능</dt><dd>출제 과목 아님 (수능은 공통과목 중심)</dd></dl></div>
-    <h3 class="sec">2028 대학 권장 현황 <span style="font-weight:400;font-size:12.5px;color:var(--ink-2)">핵심 ${u.c.length} · 권장 ${u.r.length}개 모집단위</span></h3>
+    <h3 class="sec band b-uni">2028 대학 권장 현황 <span style="font-weight:400;font-size:12.5px;color:var(--ink-2)">핵심 ${u.c.length} · 권장 ${u.r.length}개 모집단위</span></h3>
     ${tot?`<div class="uni-tools">
         <input id="uq" placeholder="대학·학과로 좁히기" value="${esc(uniState.q)}" aria-label="대학 또는 학과로 좁히기">
         <select id="urg" aria-label="권역"><option value="">전체 권역</option>${[...new Set(DEP.map(d=>d[3]))].map(r=>`<option>${r}</option>`).join("")}</select>
         <select id="ukind" aria-label="구분"><option value="">핵심+권장</option><option value="c">핵심만</option><option value="r">권장만</option></select>
       </div><div class="ulist" id="ulist"></div>`
     : `<div class="blk" style="color:var(--ink-2)">이 과목을 핵심·권장과목으로 직접 지정한 모집단위는 없습니다. 대학은 진로와 관련된 과목 이수 노력을 종합적으로 평가하므로, 관심 분야와 연결되면 충분히 의미 있는 선택입니다.</div>`}
-    <h3 class="sec">성남시 개설 학교 <span style="font-weight:400;font-size:12.5px;color:var(--ink-2)">${x.s.length}/${N}개교 · 2027학년도 입학생 편제 기준</span></h3>
+    <h3 class="sec band b-sch">성남시 개설 학교 <span style="font-weight:400;font-size:12.5px;color:var(--ink-2)">${x.s.length}/${N}개교 · 2027학년도 입학생 편제 기준</span></h3>
     ${schools}
     <div class="note" style="margin-top:8px">연세대는 핵심/권장을 나누지 않고 자연·의·치·약학 계열 전 모집단위에 기하·미적분Ⅱ 이수를 권장하며, 과학 진로선택은 과목을 지정하지 않고 3과목 이상 이수를 권장해요(2026.4. 발표). 서강대·성균관대는 2028 모집단위별 핵심·권장과목을 따로 지정하지 않았어요.</div>
     <div class="note">핵심과목은 대학이 필수적 이수를 권장하는 과목, 권장과목은 가급적 이수를 권장하는 과목입니다. 대학 자료는 필수 이수 기준이 아닌 참고 자료이며, 같은 과목이라도 학교에 따라 학년·학기와 학점이 다르며, 공동교육과정·온라인 과목은 개설 학교에 포함하지 않았습니다.</div>`;
