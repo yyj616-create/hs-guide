@@ -64,6 +64,7 @@ header.top p{margin:0;font-size:13px;color:var(--hdr-sub)}
 .empty{padding:40px 20px;text-align:center;color:var(--ink-2);font-size:14px}
 footer{margin-top:28px;padding-block:14px 40px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-2);text-align:center}
 footer p{margin:2px 0}
+footer .warn{font-size:13.5px;font-weight:700;color:var(--navy)}
 /* overlay */
 .overlay{position:fixed;inset:0;background:rgba(30,25,15,.45);z-index:50;display:none;align-items:flex-start;justify-content:center;
   padding:calc(26px + env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) calc(26px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px));overflow-y:auto}
@@ -96,13 +97,17 @@ h3.b-sch{background:var(--ok)}
 .urow .d{flex:1;min-width:0;color:var(--ink)}
 .urow .r{font-size:11px;color:var(--ink-2);white-space:nowrap}
 .more{font:inherit;font-size:12.5px;margin-top:6px;background:none;border:1px solid var(--line);border-radius:7px;padding:6px 12px;cursor:pointer;color:var(--ink-2)}
-.slist{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:5px}
+.slist{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:5px}
 .srow{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px 6px;padding:7px 10px;border-radius:8px;border:1px solid var(--line);background:var(--card);font-size:13px}
 .srow.me{border-color:var(--navy);box-shadow:inset 0 0 0 1px var(--navy)}
 .srow.no{background:var(--na-bg);color:var(--na)}
-.srow .lk{width:100%;display:flex;gap:8px;font-size:11.5px}
-.srow .lk a{color:var(--navy);text-decoration:none;border-bottom:1px solid var(--line)}
-.srow .lk a:hover{border-bottom-color:var(--navy)}
+.srow .lk{width:100%;display:flex;gap:5px;font-size:11.5px;margin-top:2px}
+.srow .lk a{flex:1;text-align:center;color:var(--navy);background:var(--jinro-bg);border:1px solid #c9d8ec;border-radius:6px;padding:3px 2px;text-decoration:none;font-weight:600;white-space:nowrap;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.srow .lk a::after{content:" ↗";font-weight:400}
+.srow .lk a:hover,.srow .lk a:focus-visible{background:var(--navy);color:var(--white);border-color:var(--navy)}
+.srow.no .lk a{background:var(--card)}
+.linkhint{font-size:12.5px;color:var(--ink-2);margin:-2px 0 8px}
+.linkhint b{color:var(--navy)}
 [hidden]{display:none!important}
 .gu{font-size:12px;font-weight:700;color:var(--ink-2);margin:10px 0 5px}.gu span{font-weight:400}
 .learn{display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
@@ -163,8 +168,8 @@ h3.b-sch{background:var(--ok)}
 </main>
 
 <footer class="in">
-  <p>편제와 대학 권장과목은 바뀔 수 있으니 학교 홈페이지와 대학 모집요강을 꼭 확인하세요.</p>
-  <p style="margin-top:8px">제작: 샛별중 진로진학상담교사</p>
+  <p class="warn">편제와 대학 권장과목은 바뀔 수 있으니 학교 홈페이지와 대학 모집요강을 꼭 확인하세요.</p>
+  <p style="margin-top:8px;font-size:12.5px;font-weight:700;color:var(--ink)">제작: 샛별중 진로진학상담교사</p>
 </footer>
 
 <div class="overlay" id="overlay" role="dialog" aria-modal="true"><div class="panel" id="panel"></div></div>
@@ -295,7 +300,7 @@ function openDetail(x){
   uniState={q:st.mode==="major"?st.q:"",rg:"",kind:"",lim:5,open:new Set()};
   const P=document.getElementById("panel");
   const u=uniOf(x), tot=u.c.length+u.r.length;
-  const row=i=>{const on=x.s.includes(i);return `<div class="srow ${on?"":"no"} ${i===st.school?"me":""}"><span>${sname(i)}</span><span class="b ${on?"b-O":"b-N"}">${on?"개설":"미개설"}</span><span class="lk"><a href="${DATA.links[i][0]}" target="_blank" rel="noopener">홈페이지</a><a href="${DATA.links[i][1]}" target="_blank" rel="noopener">2027 편제표</a></span></div>`;};
+  const row=i=>{const on=x.s.includes(i);return `<div class="srow ${on?"":"no"} ${i===st.school?"me":""}"><span>${sname(i)}</span><span class="b ${on?"b-O":"b-N"}">${on?"개설":"미개설"}</span><span class="lk"><a href="${DATA.links[i][0]}" target="_blank" rel="noopener">홈페이지</a><a href="${DATA.links[i][1]}" target="_blank" rel="noopener">편제표</a></span></div>`;};
   const schools=GU_ORDER.map(g=>{const idx=S.map((s,i)=>i).filter(i=>DATA.gu[i]===g);return `<div class="gu">${g} <span>${idx.filter(i=>x.s.includes(i)).length}/${idx.length}</span></div><div class="slist">${idx.map(row).join("")}</div>`;}).join("");
   P.innerHTML=`
     <button class="close" id="cls" aria-label="닫기">✕</button>
@@ -314,6 +319,7 @@ function openDetail(x){
       </div><div class="ulist" id="ulist"></div>`
     : `<div class="blk" style="color:var(--ink-2)">이 과목을 핵심·권장과목으로 직접 지정한 모집단위는 없습니다. 대학은 진로와 관련된 과목 이수 노력을 종합적으로 평가하므로, 관심 분야와 연결되면 충분히 의미 있는 선택입니다.</div>`}
     <h3 class="sec band b-sch">성남시 개설 학교 <span style="font-weight:400;font-size:12.5px;color:var(--ink-2)">${x.s.length}/${N}개교 · 2027학년도 입학생 편제 기준</span></h3>
+    <div class="linkhint">학교마다 있는 <b>홈페이지 ↗</b>, <b>편제표 ↗</b> 버튼을 누르면 학교 홈페이지와 2027학년도 편제표가 새 창으로 바로 열려요.</div>
     ${schools}
     <div class="note" style="margin-top:8px">연세대는 핵심/권장을 나누지 않고 자연·의·치·약학 계열 전 모집단위에 기하·미적분Ⅱ 이수를 권장하며, 과학 진로선택은 과목을 지정하지 않고 3과목 이상 이수를 권장해요(2026.4. 발표). 서강대·성균관대는 2028 모집단위별 핵심·권장과목을 따로 지정하지 않았어요.</div>
     <div class="note">핵심과목은 대학이 필수적 이수를 권장하는 과목, 권장과목은 가급적 이수를 권장하는 과목입니다. 대학 자료는 필수 이수 기준이 아닌 참고 자료이며, 같은 과목이라도 학교에 따라 학년·학기와 학점이 다르며, 공동교육과정·온라인 과목은 개설 학교에 포함하지 않았습니다.</div>`;
